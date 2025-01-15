@@ -1,5 +1,4 @@
--- made by Federal | https://github.com/Merzttt
-
+--made by Federal | https://github.com/Merzttt
 local IsStudio = false
 
 local ContextActionService = game:GetService("ContextActionService")
