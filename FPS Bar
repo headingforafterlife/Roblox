@@ -1,0 +1,59 @@
+local screenGui = Instance.new("ScreenGui")
+ screenGui.Name = "FPSPingTimeGUI"
+ screenGui.ResetOnSpawn = false
+ screenGui.Parent = game.CoreGui 
+ 
+ local frame = Instance.new("Frame")
+ frame.Size = UDim2.new(1, 0, 0, 30) 
+ frame.Position = UDim2.new(0, 0, 0, -60) 
+ frame.BackgroundTransparency = 0.3
+ frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+ frame.BorderSizePixel = 0
+ frame.Parent = screenGui
+ 
+ local statsLabel = Instance.new("TextLabel")
+ statsLabel.Size = UDim2.new(1, 0, 1, 0) 
+ statsLabel.Position = UDim2.new(0, 0, 0, 0)
+ statsLabel.BackgroundTransparency = 1
+ statsLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+ statsLabel.Font = Enum.Font.GothamBold
+ statsLabel.TextSize = 20
+ statsLabel.Text = "FPS: 0 | Ping: 0 ms | Time: 00:00:00"
+ statsLabel.TextXAlignment = Enum.TextXAlignment.Center
+ statsLabel.Parent = frame
+ 
+ local lastTime = tick()
+ local frameCount = 0
+ 
+ local function getPing()
+     if game:GetService("Stats"):FindFirstChild("Network") then
+         local serverStats = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]
+         if serverStats then
+             return math.floor(serverStats:GetValue())
+         end
+     end
+     return "N/A" -- Return "N/A" if unavailable
+ end
+
+ local function getSystemTime()
+     return os.date("%H:%M:%S") -- Get the system's local time in HH:MM:SS format
+ end
+
+ game:GetService("RunService").RenderStepped:Connect(function()
+ 
+     frameCount = frameCount + 1
+     local currentTime = tick()
+ 
+     if currentTime - lastTime >= 1 then
+         local fps = frameCount / (currentTime - lastTime)
+         local ping = getPing()
+         local time = getSystemTime()
+         if ping == "N/A" then
+             statsLabel.Text = string.format("FPS: %d | Ping: N/A | Time: %s", math.floor(fps), time)
+         else
+             statsLabel.Text = string.format("FPS: %d | Ping: %d ms | Time: %s", math.floor(fps), ping, time)
+         end
+         frameCount = 0
+         lastTime = currentTime
+     end
+ end)
