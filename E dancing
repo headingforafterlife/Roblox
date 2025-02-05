@@ -12,6 +12,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
+-- Keybind and speed settings
 local keysToHold = {
     [Enum.KeyCode.E] = { pressed = 4.0, released = 1.0 },  -- Fast
     [Enum.KeyCode.Q] = { pressed = 0.1, released = 1.0 },  -- Slow
@@ -36,6 +37,9 @@ local function adjustAnimationSpeed(speed)
 end
 
 UserInputService.InputBegan:Connect(function(input)
+
+    if UserInputService:GetFocusedTextBox() then return end
+
     if keysToHold[input.KeyCode] then
         table.insert(activeKeys, input.KeyCode)
         adjustAnimationSpeed(keysToHold[input.KeyCode].pressed)
@@ -43,6 +47,9 @@ UserInputService.InputBegan:Connect(function(input)
 end)
 
 UserInputService.InputEnded:Connect(function(input)
+
+    if UserInputService:GetFocusedTextBox() then return end
+
     if keysToHold[input.KeyCode] then
         for i, key in ipairs(activeKeys) do
             if key == input.KeyCode then
