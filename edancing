@@ -38,6 +38,9 @@ local function adjustAnimationSpeed(speed)
 end
 
 UserInputService.InputBegan:Connect(function(input)
+    -- Prevent activation if the player is typing in the chat
+    if UserInputService:GetFocusedTextBox() then return end
+
     if keysToHold[input.KeyCode] then
         table.insert(activeKeys, input.KeyCode)
         adjustAnimationSpeed(keysToHold[input.KeyCode].pressed)
@@ -45,6 +48,9 @@ UserInputService.InputBegan:Connect(function(input)
 end)
 
 UserInputService.InputEnded:Connect(function(input)
+    -- Prevent activation if the player is typing in the chat
+    if UserInputService:GetFocusedTextBox() then return end
+
     if keysToHold[input.KeyCode] then
         for i, key in ipairs(activeKeys) do
             if key == input.KeyCode then
@@ -61,6 +67,7 @@ UserInputService.InputEnded:Connect(function(input)
         end
     end
 end)
+
 
 -- Voice Chat Reconnection Script
 local vc_inter = cloneref and cloneref(game:GetService("VoiceChatInternal")) or game:GetService("VoiceChatInternal")
