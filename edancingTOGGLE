@@ -123,16 +123,6 @@ vc_inter.StateChanged:Connect(function(oldState, newState)
     end
 end)
 
-        if #activeKeys > 0 then
-            local lastKey = activeKeys[#activeKeys]
-            adjustAnimationSpeed(keysToHold[lastKey].pressed)
-        else
-            adjustAnimationSpeed(1.0)
-        end
-    end
-end)
-
-
 -- Flashback Feature
 local key = "C"
 local flashbacklength = 80
