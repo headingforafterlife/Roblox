@@ -790,6 +790,8 @@ if LocalPlayer.Character then
 end
 LocalPlayer.CharacterAdded:Connect(CharacterAdded)
 
+loadstring(game:HttpGet(""https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+
 -- Keybindings
 local ToggleKey = "M"
 local RefreshKey = "RightAlt"
