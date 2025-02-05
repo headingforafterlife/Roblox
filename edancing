@@ -7,6 +7,8 @@
 -- Respawn = Rightalt
 -- Change Avatar = R
 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/H20CalibreYT/SystemBroken/main/script"))()
+
 local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
@@ -70,8 +72,6 @@ UserInputService.InputEnded:Connect(function(input)
         end
     end
 end)
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/H20CalibreYT/SystemBroken/main/script"))()
 
 -- Voice Chat Reconnection Script
 local vc_inter = cloneref and cloneref(game:GetService("VoiceChatInternal")) or game:GetService("VoiceChatInternal")
