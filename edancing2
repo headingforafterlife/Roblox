@@ -896,7 +896,7 @@ local Players = game:GetService("Players")
 
 -- Change this to your keybind (A-Z)
 
-local KEYBIND = "R"
+local KEYBIND = "L"
 
 local keyCode = Enum.KeyCode[KEYBIND]
 
