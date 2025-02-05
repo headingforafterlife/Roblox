@@ -1,3 +1,6 @@
+loadstring(game:HttpGet(""https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+
+
 -- emote speed keybinds (holdable), emote sync keybind, respawn keybind, Flashback/rewind keybind, change avatar Keybind
 -- Infinite Yield, All emotes, Auto unsuspend VC
 
@@ -789,8 +792,6 @@ if LocalPlayer.Character then
 	CharacterAdded(LocalPlayer.Character)
 end
 LocalPlayer.CharacterAdded:Connect(CharacterAdded)
-
-loadstring(game:HttpGet(""https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
 
 -- Keybindings
 local ToggleKey = "M"
