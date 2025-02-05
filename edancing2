@@ -7,7 +7,6 @@
 -- Respawn = Rightalt
 -- Change Avatar = L
 
-
 local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
@@ -37,7 +36,13 @@ local function adjustAnimationSpeed(speed)
     end
 end
 
+local function isChatFocused()
+    return UserInputService:GetFocusedTextBox() ~= nil
+end
+
 UserInputService.InputBegan:Connect(function(input)
+    if isChatFocused() then return end
+
     if keysToHold[input.KeyCode] then
         table.insert(activeKeys, input.KeyCode)
         adjustAnimationSpeed(keysToHold[input.KeyCode].pressed)
@@ -45,6 +50,8 @@ UserInputService.InputBegan:Connect(function(input)
 end)
 
 UserInputService.InputEnded:Connect(function(input)
+    if isChatFocused() then return end
+
     if keysToHold[input.KeyCode] then
         for i, key in ipairs(activeKeys) do
             if key == input.KeyCode then
