@@ -1,14 +1,3 @@
--- emote speed keybinds (holdable), emote sync keybind, respawn keybind, Flashback/rewind keybind, change avatar Keybind
--- All emotes, Auto unsuspend VC, SystemBroken, Infinite Yield
-
--- All emotes = comma
--- Rewind = C
--- Emote Sync = M
--- Respawn = Rightalt
--- Change Avatar = R
-
--- made by sa.ya 
-
 local part = Instance.new("Part", workspace)
 part.Material = Enum.Material.SmoothPlastic
 part.Color = Color3.fromRGB(0, 0, 0)
