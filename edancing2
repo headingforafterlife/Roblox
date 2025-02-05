@@ -1,8 +1,5 @@
-loadstring(game:HttpGet(""https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
-
-
 -- emote speed keybinds (holdable), emote sync keybind, respawn keybind, Flashback/rewind keybind, change avatar Keybind
--- Infinite Yield, All emotes, Auto unsuspend VC
+-- All emotes, Auto unsuspend VC
 
 -- All emotes = comma
 -- Rewind = C
