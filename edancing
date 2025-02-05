@@ -11,7 +11,6 @@ local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
-local TextChatService = game:GetService("TextChatService")
 
 -- Keybind and speed settings
 local keysToHold = {
@@ -25,16 +24,25 @@ local player = Players.LocalPlayer
 local commandModule = ReplicatedStorage:FindFirstChild("CommandModule")
 
 local activeKeys = {}
-local chatFocused = false -- Track chat focus state
 
--- Listen for chat focus changes
-TextChatService.TextChannels.RBXGeneral.OnIncomingMessage:Connect(function()
-    chatFocused = true
-end)
+local function adjustAnimationSpeed(speed)
+    if player and player.Character then
+        local humanoid = player.Character:FindFirstChildOfClass("Humanoid") or player.Character:FindFirstChildOfClass("AnimationController")
+        if humanoid then
+            for _, animationTrack in ipairs(humanoid:GetPlayingAnimationTracks()) do
+                animationTrack:AdjustSpeed(speed)
+            end
+        end
+    end
+end
+
+local function isChatFocused()
+    return UserInputService:GetFocusedTextBox() ~= nil
+end
 
 UserInputService.InputBegan:Connect(function(input)
-    -- Prevent activation if the chat is focused
-    if chatFocused or UserInputService:GetFocusedTextBox() then return end
+    -- Prevent activation if the chat box is focused
+    if isChatFocused() then return end
 
     if keysToHold[input.KeyCode] then
         table.insert(activeKeys, input.KeyCode)
@@ -43,8 +51,8 @@ UserInputService.InputBegan:Connect(function(input)
 end)
 
 UserInputService.InputEnded:Connect(function(input)
-    -- Prevent activation if the chat is focused
-    if chatFocused or UserInputService:GetFocusedTextBox() then return end
+    -- Prevent activation if the chat box is focused
+    if isChatFocused() then return end
 
     if keysToHold[input.KeyCode] then
         for i, key in ipairs(activeKeys) do
@@ -62,24 +70,6 @@ UserInputService.InputEnded:Connect(function(input)
         end
     end
 end)
-
--- Detect when the chat loses focus
-UserInputService.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.Return then
-        chatFocused = not chatFocused
-    end
-end)
-
-local function adjustAnimationSpeed(speed)
-    if player and player.Character then
-        local humanoid = player.Character:FindFirstChildOfClass("Humanoid") or player.Character:FindFirstChildOfClass("AnimationController")
-        if humanoid then
-            for _, animationTrack in ipairs(humanoid:GetPlayingAnimationTracks()) do
-                animationTrack:AdjustSpeed(speed)
-            end
-        end
-    end
-end
 
 -- Voice Chat Reconnection Script
 local vc_inter = cloneref and cloneref(game:GetService("VoiceChatInternal")) or game:GetService("VoiceChatInternal")
