@@ -12,6 +12,7 @@ local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
+local StarterGui = game:GetService("StarterGui")
 
 -- Keybind and speed settings
 local keysToHold = {
@@ -37,9 +38,13 @@ local function adjustAnimationSpeed(speed)
     end
 end
 
+local function isChatFocused()
+    return StarterGui:GetCore("ChatActive")
+end
+
 UserInputService.InputBegan:Connect(function(input)
-    -- Prevent activation if the player is typing in the chat
-    if UserInputService:GetFocusedTextBox() then return end
+    -- Prevent activation if the chat is active
+    if isChatFocused() then return end
 
     if keysToHold[input.KeyCode] then
         table.insert(activeKeys, input.KeyCode)
@@ -48,8 +53,8 @@ UserInputService.InputBegan:Connect(function(input)
 end)
 
 UserInputService.InputEnded:Connect(function(input)
-    -- Prevent activation if the player is typing in the chat
-    if UserInputService:GetFocusedTextBox() then return end
+    -- Prevent activation if the chat is active
+    if isChatFocused() then return end
 
     if keysToHold[input.KeyCode] then
         for i, key in ipairs(activeKeys) do
