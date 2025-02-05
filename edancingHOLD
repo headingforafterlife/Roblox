@@ -52,7 +52,6 @@ local function isChatFocused()
 end
 
 UserInputService.InputBegan:Connect(function(input)
-    -- Prevent activation if the chat box is focused
     if isChatFocused() then return end
 
     if keysToHold[input.KeyCode] then
@@ -62,7 +61,6 @@ UserInputService.InputBegan:Connect(function(input)
 end)
 
 UserInputService.InputEnded:Connect(function(input)
-    -- Prevent activation if the chat box is focused
     if isChatFocused() then return end
 
     if keysToHold[input.KeyCode] then
@@ -79,6 +77,13 @@ UserInputService.InputEnded:Connect(function(input)
         else
             adjustAnimationSpeed(1.0)
         end
+    end
+end)
+
+RunService.Heartbeat:Connect(function()
+    if #activeKeys > 0 then
+        local lastKey = activeKeys[#activeKeys]
+        adjustAnimationSpeed(keysToHold[lastKey].pressed)
     end
 end)
 
