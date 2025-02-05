@@ -14,7 +14,7 @@ local RunService = game:GetService("RunService")
 
 -- Keybind and speed settings
 local keysToHold = {
-    [Enum.KeyCode.E] = { pressed = 4.0, released = 1.0 },  -- Fast
+    [Enum.KeyCode.E] = { pressed = 3.0, released = 1.0 },  -- Fast
     [Enum.KeyCode.Q] = { pressed = 0.1, released = 1.0 },  -- Slow
     [Enum.KeyCode.F] = { pressed = -1.0, released = 1.0 }, -- Reverse 
     [Enum.KeyCode.V] = { pressed = 0.0, released = 1.0 }   -- Freeze
