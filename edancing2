@@ -5,7 +5,7 @@
 -- Rewind = C
 -- Emote Sync = M
 -- Respawn = Rightalt
--- Change Avatar = R
+-- Change Avatar = L
 
 
 local UserInputService = game:GetService("UserInputService")
