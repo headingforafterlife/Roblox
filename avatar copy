@@ -3,37 +3,33 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ModifyUsername_upvr = ReplicatedStorage:WaitForChild("ModifyUsername")
 
 local player = Players.LocalPlayer
-local humanoidDescriptionBackup = nil -- Store player's avatar appearance
+local humanoidDescriptionBackup = nil
 
--- Function to Save the Avatar Before Reset
 local function saveAvatar()
     if player.Character then
         local humanoid = player.Character:FindFirstChild("Humanoid")
         if humanoid then
-            humanoidDescriptionBackup = humanoid:GetAppliedDescription() -- Backup avatar
+            humanoidDescriptionBackup = humanoid:GetAppliedDescription()
         end
     end
 end
 
--- Function to Restore the Avatar After Reset (with slight delay)
 local function restoreAvatar()
     if humanoidDescriptionBackup then
-        player.CharacterAppearanceLoaded:Wait() -- Wait until character is fully loaded
+        player.CharacterAppearanceLoaded:Wait()
         local humanoid = player.Character and player.Character:FindFirstChild("Humanoid")
         if humanoid then
-            humanoid:ApplyDescription(humanoidDescriptionBackup) -- Reapply avatar
+            humanoid:ApplyDescription(humanoidDescriptionBackup)
         end
     end
 end
 
--- Function to Create the GUI (Menu)
 local function createGUI()
-    -- Prevent multiple GUIs from appearing
     if player:FindFirstChild("PlayerGui"):FindFirstChild("UsernameGui") then return end
 
     local screenGui = Instance.new("ScreenGui")
     screenGui.Name = "UsernameGui"
-    screenGui.ResetOnSpawn = false -- Prevents GUI from disappearing after respawn
+    screenGui.ResetOnSpawn = false
     screenGui.Parent = player:WaitForChild("PlayerGui")
 
     local frame = Instance.new("Frame")
@@ -61,7 +57,6 @@ local function createGUI()
     button.TextColor3 = Color3.fromRGB(255, 255, 255)
     button.Parent = frame
 
-    -- Restore last username if available
     local lastModifiedUsername = player:GetAttribute("LastUsername")
     if lastModifiedUsername then
         textBox.Text = lastModifiedUsername
@@ -70,20 +65,17 @@ local function createGUI()
     button.MouseButton1Click:Connect(function()
         local Text = textBox.Text
         if Text and Text ~= "" then
-            player:SetAttribute("LastUsername", Text) -- Save username persistently
+            player:SetAttribute("LastUsername", Text)
             ModifyUsername_upvr:FireServer(Text)
         end
     end)
 end
 
--- Save Avatar Before Reset
 player.CharacterRemoving:Connect(saveAvatar)
 
--- Restore Avatar and GUI After Respawn
 player.CharacterAdded:Connect(function()
     createGUI() -- Recreate GUI instantly
-    task.spawn(restoreAvatar) -- Reapply avatar slightly after respawn
+    task.spawn(restoreAvatar)
 end)
 
--- Create GUI initially
 createGUI()
