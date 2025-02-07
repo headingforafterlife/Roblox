@@ -828,26 +828,6 @@ game:GetService("RunService").Heartbeat:Connect(function()
     end
 end)
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local UserInputService = game:GetService("UserInputService")
-local Players = game:GetService("Players")
-
-local KEYBIND = "R"
-
-local keyCode = Enum.KeyCode[KEYBIND]
-
-local player = Players.LocalPlayer
-local ToggleDisallowEvent = ReplicatedStorage:WaitForChild("ToggleDisallowEvent")
-local ModifyUserEvent = ReplicatedStorage:WaitForChild("ModifyUserEvent")
-
-UserInputService.InputBegan:Connect(function(input)
-    if input.KeyCode == keyCode then
-        ToggleDisallowEvent:FireServer()
-        ModifyUserEvent:FireServer(player.Name)
-        ToggleDisallowEvent:FireServer()
-    end
-end)
-
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
