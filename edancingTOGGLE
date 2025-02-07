@@ -7,31 +7,6 @@ part.Transparency = 0.5
 part.Anchored = true
 part.Name = "sa.ya on discord"
 
-for _, obj in pairs(workspace:GetDescendants()) do
-    if obj:IsA("Part") and obj.Name == "Part" then
-        local killScript = obj:FindFirstChild("Kill")
-        
-        if killScript and killScript:IsA("Script") then
-
-            local position = obj.Position
-            local size = obj.Size
-
-            obj:Destroy()
-
-            local newPart = Instance.new("Part")
-            newPart.Name = "Part"
-            newPart.Size = size
-            newPart.Position = position
-            newPart.Anchored = true
-            newPart.Color = Color3.fromRGB(255, 0, 0)
-            newPart.Transparency = 1 
-            newPart.Parent = workspace
-
-            break
-        end
-    end
-end
-
 local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
