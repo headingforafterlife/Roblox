@@ -1,0 +1,42 @@
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local player = Players.LocalPlayer
+local UIS = game:GetService("UserInputService")
+local ModifyUsername_upvr = ReplicatedStorage:WaitForChild("ModifyUsername")
+local lastModifiedUsername = nil -- To save the last modified username
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 200, 0, 100)
+frame.Position = UDim2.new(0.5, -100, 0.5, -50)
+frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+frame.BorderSizePixel = 2
+frame.Draggable = true -- Make it draggable
+frame.Active = true
+frame.Parent = screenGui
+
+local textBox = Instance.new("TextBox")
+textBox.Size = UDim2.new(1, -20, 0, 30)
+textBox.Position = UDim2.new(0, 10, 0, 10)
+textBox.PlaceholderText = "Enter Username"
+textBox.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+textBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+textBox.Parent = frame
+
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(1, -20, 0, 30)
+button.Position = UDim2.new(0, 10, 0, 50)
+button.Text = "Modify Username"
+button.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+button.TextColor3 = Color3.fromRGB(255, 255, 255)
+button.Parent = frame
+
+button.MouseButton1Click:Connect(function()
+    local Text = textBox.Text
+    if Text and Text ~= "" then
+        lastModifiedUsername = Text
+        ModifyUsername_upvr:FireServer(Text)
+    end
+end)
